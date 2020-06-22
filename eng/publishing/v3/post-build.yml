@@ -61,6 +61,9 @@ stages:
               Set-StrictMode -Version 2.0
               $disableConfigureToolsetImport = $true
 
+              Write-Host "Executing on this directory"
+              pwd
+
               # `tools.ps1` requires $ci to be $true
               $ci = $true
               . $PSScriptRoot\..\tools.ps1
