@@ -94,7 +94,7 @@ stages:
           env:
             MAESTRO_API_TOKEN: $(MaestroApiAccessToken)
 
-- ${{ if le(variables['PublishingInfraVersion'], 2) }}:
+- ${{ if le($(PublishingInfraVersion), 2) }}:
   # Parameters used on conditions need to be passed as variables['ParameterName']
   - template: \eng\common\templates\post-build\post-build.yml
     parameters:
@@ -117,7 +117,7 @@ stages:
 
       BARBuildId: $(BARBuildId)
 
-- ${{ if ge(variables['PublishingInfraVersion'], 3) }}:
+- ${{ if ge(PublishingInfraVersion, 3) }}:
   # Parameters used on conditions need to be passed as variables['ParameterName']
   - template: \eng\publishing\v3\post-build.yml
     parameters:
