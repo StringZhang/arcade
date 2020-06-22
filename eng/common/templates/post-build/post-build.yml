@@ -62,7 +62,7 @@ parameters:
   VSMasterChannelId: 1012
   
 stages:
-- ${{ if or(ge(parameters.publishingInfraVersion, 2), eq(parameters.inline, 'false')) }}:
+- ${{ if or(ge(parameters.publishingInfraVersion, 3), eq(parameters.inline, 'false')) }}:
   - stage: publish_using_darc
     dependsOn: ${{ parameters.validateDependsOn }}
     displayName: Publish using Darc
@@ -95,7 +95,7 @@ stages:
               -ArtifactsPublishingAdditionalParameters '${{ parameters.artifactsPublishingAdditionalParameters }}'
               -SigningValidationAdditionalParameters '${{ parameters.signingValidationAdditionalParameters }}'
 
-- ${{ if eq(parameters.inline, 'true') }}:
+- ${{ if and(le(parameters.publishingInfraVersion, 2), eq(parameters.inline, 'true')) }}:
   - stage: Validate
     dependsOn: ${{ parameters.validateDependsOn }}
     displayName: Validate Build Assets
