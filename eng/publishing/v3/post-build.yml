@@ -384,7 +384,7 @@ stages:
               /p:AkaMSClientSecret=$(akams-client-secret)
               ${{ parameters.artifactsPublishingAdditionalParameters }}
 
-        - template: ../steps/publish-logs.yml
+        - template: eng\common\templates\steps\publish-logs.yml
           parameters:
             StageLabel: '${{ parameters.stageName }}'
             JobLabel: 'AssetsPublishing'
