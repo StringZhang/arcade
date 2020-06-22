@@ -192,7 +192,7 @@ stages:
               /p:SignCheckExclusionsFile='$(Build.SourcesDirectory)/eng/SignCheckExclusionsFile.txt'
               ${{ parameters.signingValidationAdditionalParameters }}
 
-        - template: eng\common\templates\steps\publish-logs.yml
+        - template: \eng\common\templates\steps\publish-logs.yml
           parameters:
             StageLabel: 'Validation'
             JobLabel: 'Signing'
@@ -305,7 +305,7 @@ stages:
               /p:PublishToMSDL=false
               ${{ parameters.symbolPublishingAdditionalParameters }}
 
-        - template: eng\common\templates\steps\publish-logs.yml
+        - template: \eng\common\templates\steps\publish-logs.yml
           parameters:
             StageLabel: '${{ parameters.stageName }}'
             JobLabel: 'SymbolPublishing'
@@ -384,7 +384,7 @@ stages:
               /p:AkaMSClientSecret=$(akams-client-secret)
               ${{ parameters.artifactsPublishingAdditionalParameters }}
 
-        - template: eng\common\templates\steps\publish-logs.yml
+        - template: \eng\common\templates\steps\publish-logs.yml
           parameters:
             StageLabel: '${{ parameters.stageName }}'
             JobLabel: 'AssetsPublishing'
