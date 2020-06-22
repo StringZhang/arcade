@@ -1,7 +1,5 @@
 parameters:
-  # When set to true the publishing templates from the repo will be used
-  # otherwise Darc add-build-to-channel will be used to trigger the promotion pipeline
-  inline: true
+  # inline: true
 
   # Only used if inline==false. When set to true will stall the current build until
   # the Promotion Pipeline build finishes. Otherwise, the current build continue 
@@ -10,7 +8,6 @@ parameters:
 
   enableSourceLinkValidation: false
   enableSigningValidation: true
-  enableSymbolValidation: false
   enableNugetValidation: true
   publishInstallersAndChecksums: false
   SDLValidationParameters:
@@ -34,40 +31,6 @@ parameters:
   - Validate
 
 stages:
-- ${{ if ne(parameters.inline, 'true') }}:
-  - stage: publish_using_darc
-    dependsOn: ${{ parameters.validateDependsOn }}
-    displayName: Publish using Darc
-    variables:
-      - template: common-variables.yml
-    jobs:
-    - template: setup-maestro-vars.yml
-
-    - job:
-      displayName: Publish Using Darc
-      dependsOn: setupMaestroVars
-      variables:
-        - name: BARBuildId
-          value: $[ dependencies.setupMaestroVars.outputs['setReleaseVars.BARBuildId'] ]
-      pool:
-        vmImage: 'windows-2019'
-      steps:
-        - task: PowerShell@2
-          displayName: Publish Using Darc
-          inputs:
-            filePath: $(Build.SourcesDirectory)/eng/common/post-build/publish-using-darc.ps1
-            arguments: -BuildId $(BARBuildId) 
-              -AzdoToken '$(publishing-dnceng-devdiv-code-r-build-re)'
-              -MaestroToken '$(MaestroApiAccessToken)'
-              -WaitPublishingFinish ${{ parameters.waitPublishingFinish }}
-              -EnableSourceLinkValidation ${{ parameters.enableSourceLinkValidation }}
-              -EnableSigningValidation ${{ parameters.enableSourceLinkValidation }}
-              -EnableNugetValidation ${{ parameters.enableSourceLinkValidation }}
-              -PublishInstallersAndChecksums ${{ parameters.publishInstallersAndChecksums }}
-              -ArtifactsPublishingAdditionalParameters '${{ parameters.artifactsPublishingAdditionalParameters }}'
-              -SigningValidationAdditionalParameters '${{ parameters.signingValidationAdditionalParameters }}'
-
-- ${{ if eq(parameters.inline, 'true') }}:
   - stage: Validate
     dependsOn: ${{ parameters.validateDependsOn }}
     displayName: Validate Build Assets
