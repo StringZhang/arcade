@@ -1,4 +1,8 @@
 parameters:
+  #
+  # THIS FILE SHOULD BE INCLUDED ONLY BY `eng\promote-build.yml` AND THEREFORE
+  # INLINE SHOULD BE ALWAYS TRUE.
+  #
   # inline: true
 
   # Only used if inline==false. When set to true will stall the current build until
