@@ -366,8 +366,7 @@ stages:
             arguments: -task PublishArtifactsInManifest -restore -msbuildEngine dotnet
               /p:BARBuildId=$(BARBuildId)
               /p:TargetChannels='$(TargetChannels)'
-              /p:ArtifactsCategory=$(ArtifactsCategory)
-              /p:IsInternalBuild=$(IsInternalBuild)
+              /p:IsInternalBuild=${{ and(ne(variables['System.TeamProject'], 'public'), contains(variables['Build.SourceBranch'], 'internal')) }}
               /p:NugetPath=$(NuGetExeToolPath)
               /p:MaestroApiEndpoint='$(MaestroApiEndPoint)'
               /p:BuildAssetRegistryToken='$(MaestroApiAccessToken)'
