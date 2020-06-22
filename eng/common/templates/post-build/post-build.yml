@@ -1,4 +1,9 @@
 parameters:
+  # Which publishing infra should be used. THIS SHOULD MATCH THE VERSION ON THE BUILD MANIFEST.
+  # Publishing V2 accepts optionally outlining the publishing stages - default is inline.
+  # Publishing V3 DOES NOT accept inlining the publishing stages.
+  publishingInfraVersion: 2
+
   # When set to true the publishing templates from the repo will be used
   # otherwise Darc add-build-to-channel will be used to trigger the promotion pipeline
   inline: true
@@ -10,7 +15,6 @@ parameters:
 
   enableSourceLinkValidation: false
   enableSigningValidation: true
-  enableSymbolValidation: false
   enableNugetValidation: true
   publishInstallersAndChecksums: false
   SDLValidationParameters:
@@ -58,7 +62,7 @@ parameters:
   VSMasterChannelId: 1012
   
 stages:
-- ${{ if ne(parameters.inline, 'true') }}:
+- ${{ if or(ge(parameters.publishingInfraVersion, 2), eq(parameters.inline, 'false')) }}:
   - stage: publish_using_darc
     dependsOn: ${{ parameters.validateDependsOn }}
     displayName: Publish using Darc
