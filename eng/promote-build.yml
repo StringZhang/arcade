@@ -1,6 +1,14 @@
 # This file is the main entry point for the Build Promotion build definition.
 # These variables should be declared at build queue time:
 #
+parameters:
+  - name: PublishingInfraVersion
+    type: int
+    default: 2
+    values:
+      - 2
+      - 3
+
 #   - PublishingInfraVersion                        ; Which version of the publishing infra post-build stages should be used.
 #   - BARBuildId                                    ; Maestro++/BAR ID of the build to be promoted
 #   - PromoteToMaestroChannelId                     ; To which Maestro++ the build should be promoted to
