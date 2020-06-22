@@ -85,6 +85,7 @@ stages:
           inputs:
             filePath: $(Build.SourcesDirectory)/eng/common/post-build/publish-using-darc.ps1
             arguments: -BuildId $(BARBuildId) 
+              -PublishingInfraVersion ${{ parameters.PublishingInfraVersion }}
               -AzdoToken '$(publishing-dnceng-devdiv-code-r-build-re)'
               -MaestroToken '$(MaestroApiAccessToken)'
               -WaitPublishingFinish ${{ parameters.waitPublishingFinish }}
