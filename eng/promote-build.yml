@@ -117,7 +117,7 @@ stages:
 
       BARBuildId: $(BARBuildId)
 
-- ${{ if ge(PublishingInfraVersion, 3) }}:
+- ${{ if ge(variables.PublishingInfraVersion, 3) }}:
   # Parameters used on conditions need to be passed as variables['ParameterName']
   - template: \eng\publishing\v3\post-build.yml
     parameters:
