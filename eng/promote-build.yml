@@ -94,24 +94,48 @@ stages:
           env:
             MAESTRO_API_TOKEN: $(MaestroApiAccessToken)
 
-# Parameters used on conditions need to be passed as variables['ParameterName']
-- template: \eng\common\templates\post-build\post-build.yml
-  parameters:
-    enableSourceLinkValidation: variables['EnableSourceLinkValidation']
-    enableNugetValidation: variables['EnableNugetValidation']
-    enableSigningValidation: variables['EnableSigningValidation']
-    
-    validateDependsOn:
-      - prepare_promotion
-    
-    SDLValidationParameters:
-      enable: variables['EnableSDLValidation']
-      continueOnError: $(SDLValidationContinueOnError)
-      params: $(SDLValidationCustomParams)
-    
-    publishInstallersAndChecksums: $(PublishInstallersAndChecksums)
-    symbolPublishingAdditionalParameters: $(SymbolPublishingAdditionalParameters)
-    artifactsPublishingAdditionalParameters: $(ArtifactsPublishingAdditionalParameters)
-    signingValidationAdditionalParameters: $(SigningValidationAdditionalParameters)
+- ${{ if le(parameters.PublishingInfraVersion, 2) }}:
+  # Parameters used on conditions need to be passed as variables['ParameterName']
+  - template: \eng\common\templates\post-build\post-build.yml
+    parameters:
+      enableSourceLinkValidation: variables['EnableSourceLinkValidation']
+      enableNugetValidation: variables['EnableNugetValidation']
+      enableSigningValidation: variables['EnableSigningValidation']
+      
+      validateDependsOn:
+        - prepare_promotion
+      
+      SDLValidationParameters:
+        enable: variables['EnableSDLValidation']
+        continueOnError: $(SDLValidationContinueOnError)
+        params: $(SDLValidationCustomParams)
+      
+      publishInstallersAndChecksums: $(PublishInstallersAndChecksums)
+      symbolPublishingAdditionalParameters: $(SymbolPublishingAdditionalParameters)
+      artifactsPublishingAdditionalParameters: $(ArtifactsPublishingAdditionalParameters)
+      signingValidationAdditionalParameters: $(SigningValidationAdditionalParameters)
 
-    BARBuildId: $(BARBuildId)
+      BARBuildId: $(BARBuildId)
+
+- ${{ if ge(parameters.PublishingInfraVersion, 3) }}:
+  # Parameters used on conditions need to be passed as variables['ParameterName']
+  - template: \eng\publishing\v3\post-build.yml
+    parameters:
+      enableSourceLinkValidation: variables['EnableSourceLinkValidation']
+      enableNugetValidation: variables['EnableNugetValidation']
+      enableSigningValidation: variables['EnableSigningValidation']
+      
+      validateDependsOn:
+        - prepare_promotion
+      
+      SDLValidationParameters:
+        enable: variables['EnableSDLValidation']
+        continueOnError: $(SDLValidationContinueOnError)
+        params: $(SDLValidationCustomParams)
+      
+      publishInstallersAndChecksums: $(PublishInstallersAndChecksums)
+      symbolPublishingAdditionalParameters: $(SymbolPublishingAdditionalParameters)
+      artifactsPublishingAdditionalParameters: $(ArtifactsPublishingAdditionalParameters)
+      signingValidationAdditionalParameters: $(SigningValidationAdditionalParameters)
+
+      BARBuildId: $(BARBuildId)
