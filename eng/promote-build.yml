@@ -1,7 +1,7 @@
 # This file is the main entry point for the Build Promotion build definition.
-# These variables should be declared at build queue time:
-#
+
 parameters:
+  # Version of the publishing infra that should be used
   - name: PublishingInfraVersion
     type: number
     default: 2
@@ -9,18 +9,39 @@ parameters:
       - 2
       - 3
 
-#   - PublishingInfraVersion                        ; Which version of the publishing infra post-build stages should be used.
+  # Whether source link validation should be performed
+  - name: EnableSourceLinkValidation
+    type: boolean 
+    default: false
+    
+  # Whether NuGet metadata validation should be performed
+  - name: EnableNugetValidation
+    type: boolean 
+    default: false
+    
+  # Whether signing validation should be performed
+  - name: EnableSigningValidation
+    type: boolean 
+    default: false
+    
+  # Whether SDL validation should be performed
+  - name: EnableSDLValidation
+    type: boolean 
+    default: false
+    
+  # Whether installers and checksums should be published
+  - name: PublishInstallersAndChecksums
+    type: boolean 
+    default: false
+    
 #   - BARBuildId                                    ; Maestro++/BAR ID of the build to be promoted
 #   - PromoteToMaestroChannelId                     ; To which Maestro++ the build should be promoted to
 #   - PromoteToChannelIds                           ; Comma-separated list of Maestro++ channel's ID that the build must be promoted to
-#   - EnableSourceLinkValidation                    ; Whether source link validation should be performed
-#   - EnableNugetValidation                         ; Whether NuGet metadata validation should be performed
-#   - EnableSigningValidation                       ; Whether signing validation should be performed
+#   - EnableSigningValidation                       ; 
 #   -   SigningValidationAdditionalParameters       ; Additional (MSBuild) properties to be passed to signing validation
 #   - EnableSDLValidation                           ; Whether SDL validation should be performed
 #   -   SDLValidationContinueOnError                ; Whether SDL validation errors should be ignored
 #   -   SDLValidationCustomParams                   ; Custom parameters for SDL validation
-#   - PublishInstallersAndChecksums                 ; Whether installers and checksums should be published
 #   - SymbolPublishingAdditionalParameters          ; Additional (MSBuild) properties to be passed to symbol publishing
 #   - ArtifactsPublishingAdditionalParameters       ; Additional (MSBuild) properties to be passed to asset publishing
 
