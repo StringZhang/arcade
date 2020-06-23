@@ -59,12 +59,14 @@ stages:
             script: |
               try {
                 dir Env:
+                $ErrorActionPreference = 'Stop'
+                Set-StrictMode -Version 2.0
 
                 # `tools.ps1` requires $ci to be $true
                 $ci = $true
                 . ${Env:BUILD_SOURCESDIRECTORY}\eng\common\tools.ps1
 
-                if ($TargetChannels -eq "") {
+                if ($Env:TargetChannels -eq "") {
                   Write-PipelineTaskError -Type 'warning' -Message "This build won't publish assets as it's not configured to any Maestro channel. If that wasn't intended use Darc to configure a default channel using add-default-channel for this branch or to promote it to a channel using add-build-to-channel. See https://github.com/dotnet/arcade/blob/master/Documentation/Darc.md#assigning-an-individual-build-to-a-channel for more info."
                   ExitWithExitCode 0
                 }
@@ -109,9 +111,9 @@ stages:
                 Set-StrictMode -Version 2.0
 
                 # `tools.ps1` requires $ci to be $true
-                  $ci = $true
+                $ci = $true
                 $disableConfigureToolsetImport = $true
-                . $PSScriptRoot\..\tools.ps1
+                . ${Env:BUILD_SOURCESDIRECTORY}\eng\common\tools.ps1
 
                 $ToolDestinationPath = ${Env:AGENT_BUILDDIRECTORY}/Extract/ 
                 $PackagesPath = ${Env:BUILD_ARTIFACTSSTAGINGDIRECTORY}/PackageArtifacts/ 
