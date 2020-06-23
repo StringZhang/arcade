@@ -58,12 +58,12 @@ stages:
             targetType: inline
             script: |
               try {
-                $ErrorActionPreference = 'Stop'
-                Set-StrictMode -Version 2.0
-                $disableConfigureToolsetImport = $true
+#                $ErrorActionPreference = 'Stop'
+#                Set-StrictMode -Version 2.0
+#                $disableConfigureToolsetImport = $true
 
                 Write-Host "Executing on this directory"
-                Get-Location
+#                Get-Location
 
                 dir Env:
 
