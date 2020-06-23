@@ -58,13 +58,6 @@ stages:
             targetType: inline
             script: |
               try {
-#                $ErrorActionPreference = 'Stop'
-#                Set-StrictMode -Version 2.0
-#                $disableConfigureToolsetImport = $true
-
-                Write-Host "Executing on this directory"
-#                Get-Location
-
                 dir Env:
 
                 # `tools.ps1` requires $ci to be $true
